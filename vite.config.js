@@ -26,9 +26,9 @@ export default ({ command }) => ({
       //   }),
       // ],
       // external: ['crypto', 'http', 'https', 'url'],
-      input: {
-        main: path.resolve(__dirname, '/src/ts/main.js'),
-      },
+      // input: {
+      //   main: path.resolve(__dirname, '/src/ts/main.js'),
+      // },
       output: {
         sourcemap: true,
       },
