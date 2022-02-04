@@ -49,10 +49,10 @@ export default ({ command }) => ({
         path.resolve('./node_modules'),
       ],
     }),
-    eslintPlugin({
-      cache: false,
-      fix: true,
-    }),
+    // eslintPlugin({
+    //   cache: false,
+    //   fix: true,
+    // }),
     vue(),
     svgLoader({
       svgo: true,
