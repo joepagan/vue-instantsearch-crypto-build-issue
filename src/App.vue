@@ -1,15 +1,14 @@
-<script setup lang="ts">
+<script setup>
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 import HelloWorld from './components/HelloWorld.vue'
 import InstantSearch from 'vue-instantsearch/vue3/es';
 import algoliasearch from 'algoliasearch/lite';
-
 </script>
 
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <HelloWorld msg="Hello Vue 3 + Vite" />
 </template>
 
 <style>
