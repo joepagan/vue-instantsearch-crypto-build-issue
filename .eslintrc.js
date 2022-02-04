@@ -15,6 +15,7 @@ module.exports = {
     parser: "@typescript-eslint/parser",
     sourceType: 'module',
     project: './tsconfig.json',
+    extraFileExtensions: ['.vue'],
   },
   plugins: [
     'vue',
