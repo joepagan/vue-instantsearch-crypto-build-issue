@@ -7,7 +7,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.2.25"
+    "algoliasearch": "^4.12.1",
+    "vue": "^3.2.25",
+    "vue-instantsearch": "^4.3.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.0.0",
