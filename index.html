@@ -7,7 +7,150 @@
     <title>Vite App</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <search
+        app-id="string"
+        search-api-key="string"
+        environment="dev"
+      ></search>
+    </div>
+
     <script type="module" src="/src/main.ts"></script>
+
+
+    <script type="text/x-template" id="t-search">
+      <li class="mr-2 relative z-50">
+      <button class="inline-flex h-12 w-12 items-center justify-center  rounded-full bg-white bg-opacity-10 hover:bg-opacity-50" href="#" @click="toggleSearch">
+          
+  <svg width="26" height="26" xmlns="http://www.w3.org/2000/svg">
+    <g transform="rotate(-45 12.80330127 5.30330069)" stroke-width="2" stroke="#FFFFFF">
+      <circle cx="7.5" cy="7.5" r="6.5" fill="none"/>
+      <path stroke-linecap="round" d="M7.64949494 14.9779221v5.6568542"/>
+    </g>
+  </svg>    </button>
+      <div
+          v-if="enabled"
+          class="absolute top-0 right-0"
+      >
+          <ais-instant-search
+              :search-client="searchClient"
+              :index-name="indexName"
+          >
+              <ais-configure :hits-per-page.camel="16" />
+  
+              <header class="relative h-12 bg-white text-blue rounded-full overflow-hidden w-[310px]">
+                  <ais-search-box
+                      placeholder="Search a product"
+                      show-loading-indicator
+                      autofocus
+                      class="h-full"
+                  >
+                      <template v-slot:search-icon>
+                          
+  <svg width="26" height="26" xmlns="http://www.w3.org/2000/svg">
+    <g transform="rotate(-45 12.80330127 5.30330069)" stroke-width="2" stroke="#003E78">
+      <circle cx="7.5" cy="7.5" r="6.5" fill="none"/>
+      <path stroke-linecap="round" d="M7.64949494 14.9779221v5.6568542"/>
+    </g>
+  </svg>                    </template>
+                  </ais-search-box>
+                  <button
+                      class="absolute right-4 top-1/2 -translate-y-1/2 block fill-current text-blue"
+                      @click="toggleSearch"
+                  >
+                      <svg width="27" height="27" xmlns="http://www.w3.org/2000/svg"><g transform="translate(-333 -23)" fill="none" fill-rule="evenodd" stroke-linecap="round"><g stroke="#002E5A" stroke-width="2"><path d="m340.843 30.843 11.314 11.314M352.157 30.843l-11.314 11.314"/></g></g></svg>                </button>
+              </header>
+  
+              <ais-stats>
+                  <template v-slot:stats-text>1</template>
+                  <template v-slot="{ nbHits, query }">
+                      <main v-if="nbHits > 0 && query" class="absolute top-[70px] right-0 mt-4 overflow-scroll w-search-results bg-white rounded-4xl text-blue max-h-search-results border-grey-border border">
+                          <section class="bg-white py-6 px-5">
+                              <h2 class="block mb-2 text-blue opacity-50 text-xxs font-bold uppercase">Product Categories</h2>
+                              <ais-index :index-name="categoryIndexName">
+                                  <ais-state-results>
+                                      <template v-slot="{ results: { hits, query } }">
+                                          <ais-hits v-if="hits.length > 0 && query">
+                                              <template v-slot="{ items, sendEvent, query }">
+                                                  <ul
+                                                      v-if="items.length > 0"
+                                                  >
+                                                      <li
+                                                              v-for="item in items"
+                                                              :key="item.objectID"
+                                                              class="py-0.5"
+                                                      >
+                                                          <a
+                                                                  :href="item.url"
+                                                                  class="text-xs hover:text-blue-dark"
+                                                          >
+                                                              ${item.title}
+                                                          </a>
+                                                      </li>
+                                                  </ul>
+                                                  <div v-else>No results</div>
+                                              </template>
+                                          </ais-hits>
+                                          <div v-else-if="hits.length == 0 && query">
+                                              No results have been found for ${query}.
+                                          </div>
+                                          <div v-else></div>
+                                      </template>
+                                  </ais-state-results>
+                              </ais-index>
+                          </section>
+                          <section class="bg-grey-header py-6 px-5">
+                              <h2 class="block mb-2 text-blue opacity-50 text-xxs font-bold uppercase">Products</h2>
+                              <ais-state-results>
+                                  <template v-slot="{ results: { hits, query } }">
+                                      <ais-hits v-if="hits.length > 0 && query">
+                                          <template v-slot="{ items, sendEvent, query }">
+                                              <ul
+                                                  v-if="items.length > 0"
+                                                  class="grid grid-cols-5 gap-4"
+                                              >
+                                                  <li
+                                                      v-for="item in items"
+                                                      :key="item.objectID"
+                                                  >
+                                                      <a
+                                                          :href="item.url"
+                                                          class="block bg-white border border-grey-border p-2 w-full hover:text-blue-dark"
+                                                      >
+                                                          <img
+                                                              :src="item.image"
+                                                              :alt="item.title"
+                                                              loading="lazy"
+                                                              class="object-fit w-full mb-2"
+                                                          >
+                                                          <h3 class="text-xs">${item.title}</h3>
+                                                      </a>
+                                                  </li>
+                                              </ul>
+                                              <div v-else>No results</div>
+                                          </template>
+                                      </ais-hits>
+                                      <div v-else-if="hits.length == 0 && query">
+                                          No results have been found for ${query}.
+                                      </div>
+                                      <div v-else></div>
+                                  </template>
+                              </ais-state-results>
+                          </section>
+                      </main>
+                      <div
+                          v-else-if="nbHits == 0 && query.length > 0"
+                          class="absolute top-[70px] right-0 mt-4 w-search-results bg-white rounded-4xl text-blue max-h-search-results bg-white py-6 px-5"
+                      >
+                          No results have been found for ${query}.
+                      </div>
+                                          <div v-else></div>
+                  </template>
+              </ais-stats>
+          </ais-instant-search>
+      </div>
+  </li>
+    </script>
+    
   </body>
 </html>

@@ -26,8 +26,9 @@ export default ({ command }) => ({
       //   }),
       // ],
       // external: ['crypto', 'http', 'https', 'url'],
-      // input: {
-      // },
+      input: {
+        main: 'src/main.js',
+      },
       output: {
         sourcemap: true,
       },

@@ -1,6 +1,21 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
 import InstantSearch from 'vue-instantsearch/vue3/es';
-import algoliasearch from 'algoliasearch/lite';
 
-createApp(App).mount('#app')
+// Components
+import Search from '@/vue/components/Search.ts';
+
+export default function init() {
+  // Create our vue instance
+  const vueInstance = createApp({
+    delimiters: ['${', '}'],
+    components: {
+      Search,
+    },
+  });
+  // Use InstantSearch
+  vueInstance.use(InstantSearch);
+  // Mount the app
+  vueInstance.mount('#app');
+}
+
+init();
